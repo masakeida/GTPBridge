@@ -5,10 +5,10 @@ import datetime
 import os
 
 # --- 設定 ---
-ROLE = "WHITE"  # 白番なら "WHITE"、黒番なら "BLACK"
+ROLE = "HOST"  # ホストなら "HOST"、ゲストなら "GUEST"
 SERVER_IP = "192.168.x.xx"
 PORT = 12345
-LOG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), f"bridge_{ROLE.lower()}.log")
+LOG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), f"log_bridge_{ROLE.lower()}.log")
 
 # グローバル変数
 last_genmove_id = None
@@ -105,10 +105,10 @@ def handle_local_commands(line):
     return raw, False
 
 def main():
-    log_message(f"Starting Bridge v2.2 as {ROLE}...")
+    log_message(f"Starting Bridge v2.3 as {ROLE}...")
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     
-    if ROLE == "WHITE":
+    if ROLE == "HOST":
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.bind(("0.0.0.0", PORT))
         sock.listen(1)
