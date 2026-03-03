@@ -1,16 +1,16 @@
 # GTPBridge
 A network bridge for GTP (Go Text Protocol) software (like Sabaki)
 
-GTP 対応囲碁 GUI ソフト同士でネットワーク対局を行うための bridge です。2台のPCに Sabaki のような囲碁 GUI ソフトをインストールして、その間で人間対人間、AIエンジン対AIエンジン、人間対AIエンジンで対局が可能です。
+GTP 対応囲碁 GUI ソフト同士でネットワーク対局を行うための bridge です。2台のPCに [Sabaki](https://sabaki.yichuanshen.de/ "Sabaki") のような囲碁 GUI ソフトをインストールして、その間で人間対人間、AIエンジン対AIエンジン、人間対AIエンジンで対局が可能です。
 
 対局開始時には、ローカルとリモートの両方の環境で操作が必要です。また、パスと投了を正しく伝達できないため、終局時には別のコミュニケーション手段と操作が必要です。
 
 ## 準備
 
-囲碁 GUIソフトとして Sabaki を前提に説明します。PC はネットワークで接続している host-pc と guest-pc があるとします。host-pc の IP アドレスを 192.168.0.31 とします。
+囲碁 GUIソフトとして Sabaki を前提に説明します。PC はネットワークで接続している host-pc と guest-pc があるとします。host-pc の IP アドレスを `192.168.0.31` とします。
 
-bridge_host_guest.py を host-pc にコピーして、bridge_host.py と名前を変更します。ファイル内容は変更しません。
-bridge_host_guest.py を guest-pc コピーして、bridge_guest.py と名前を変更します。ファイル内容の8行目を
+`bridge_host_guest.py` を host-pc にコピーして、`bridge_host.py` と名前を変更します。ファイル内容は変更しません。
+`bridge_host_guest.py` を guest-pc コピーして、`bridge_guest.py` と名前を変更します。ファイル内容の8行目を
 ```
 ROLE = "GUEST"
 ```
@@ -20,10 +20,10 @@ SERVER_IP = "192.168.0.31"
 ```
 に host-pc の IP アドレスを記入します。
 
-bridge_host.py の SERVER_IP はなんでもよく、bridge_guest.py の SERVER_IP は host-pc の IP アドレスを入れることに注意してください。これは、host-pc の bridge_host.py が先に起動して待機し、guest-pc の bridge_guest.py は起動と同時に host-pc のIPアドレスに接続をするという動作をするためです。
+`bridge_host.py` の `SERVER_IP` はなんでもよく、`bridge_guest.py` の `SERVER_IP` は host-pc の IP アドレスを入れることに注意してください。これは、host-pc の `bridge_host.py` が先に起動して待機し、guest-pc の `bridge_guest.py` は起動と同時に host-pc のIPアドレスに接続をするという動作をするためです。
 
-host-pc と guest-pc にインストールされた Sabaki のエンジンとして、それぞれ bridge_host.py と bridge_guest.py を登録します。
-python スクリプトなので、エンジンのパスとして python.exe のフルパス、引数に bridge_host.py もしくは bridge_guest.py のフルパスを入れる設定が簡単です。名前はそれぞれ BridgeHost、BridgeGuest などとしたとして説明していきます。
+host-pc と guest-pc にインストールされた Sabaki のエンジンとして、それぞれ `bridge_host.py` と `bridge_guest.py` を登録します。
+python スクリプトなので、エンジンのパスとして `python.exe` のフルパス、引数に `bridge_host.py` もしくは `bridge_guest.py` のフルパスを入れる設定が簡単です。名前はそれぞれ BridgeHost、BridgeGuest などとしたとして説明していきます。
 
 ## 人間 対 人間
 
