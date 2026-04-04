@@ -88,7 +88,7 @@ def handle_local_commands(line):
         res_body = ""
         if cmd == 'protocol_version': res_body = "2"
         elif cmd == 'name': res_body = f"NetBridge_{ROLE}"
-        elif cmd == 'version': res_body = "2.2"
+        elif cmd == 'version': res_body = "2.3"
         elif cmd == 'list_commands': res_body = "protocol_version\nname\nversion\nlist_commands\nboardsize\nclear_board\nkomi\nplay\ngenmove\nquit\nlz-analyze\ntime_settings"
         # lz-analyze や time_settings には空の成功応答を返す
         return f"={res_id} {res_body}\n\n", True
