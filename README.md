@@ -3,7 +3,7 @@ A network bridge for GTP (Go Text Protocol) software (like Sabaki)
 
 ## 概要
 
-**GTPBridge** は、GTP (Go Text Protocol) をネットワーク経由で中継し、遠隔地のプレイヤー同士が [Sabaki](https://sabaki.yichuanshen.de/ "Sabaki") などの囲碁GUIを使用して直接対局することを可能にするブリッジツールです。
+**GTPBridge** は、GTP (Go Text Protocol) をネットワーク経由で中継し、遠隔地のプレイヤー同士が [Sabaki](https://sabaki.yichuanshen.de/ "Sabaki") や [LizzieYzy](https://github.com/yzyray/lizzieyzy "LizzieYzy") などの囲碁GUIを使用して直接対局することを可能にするブリッジツールです。
 
 通常、囲碁エンジンと通信するためのプロトコルであるGTPを用いて、一方が「ホスト」、もう一方が「ゲスト」として接続することで、あたかも対面で打っているかのような操作感を提供します。
 
