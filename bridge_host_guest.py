@@ -75,32 +75,43 @@ def handle_local_commands(line):
     if not raw: return None, False
     
     parts = raw.split()
-    res_id = parts[0] if parts[0].isdigit() else ""
-    cmd = parts[1] if res_id and len(parts) > 1 else parts[0]
+    # IDがある場合は parts[0] が数字、parts[1] がコマンド名
+    if parts[0].isdigit():
+        res_id = parts[0]
+        cmd = parts[1].lower() if len(parts) > 1 else ""
+    else:
+        res_id = ""
+        cmd = parts[0].lower()
 
-    # 即答系コマンド
-    if cmd in ['protocol_version', 'name', 'version', 'list_commands', 'boardsize', 'clear_board', 'komi']:
+    # 即答系コマンドに lz-analyze と time_settings を追加
+    if cmd in ['protocol_version', 'name', 'version', 'list_commands', 'boardsize', 'clear_board', 'komi', 'lz-analyze', 'time_settings']:
         res_body = ""
         if cmd == 'protocol_version': res_body = "2"
         elif cmd == 'name': res_body = f"NetBridge_{ROLE}"
         elif cmd == 'version': res_body = "2.2"
-        elif cmd == 'list_commands': res_body = "protocol_version\nname\nversion\nlist_commands\nboardsize\nclear_board\nkomi\nplay\ngenmove\nquit"
+        elif cmd == 'list_commands': res_body = "protocol_version\nname\nversion\nlist_commands\nboardsize\nclear_board\nkomi\nplay\ngenmove\nquit\nlz-analyze\ntime_settings"
+        # lz-analyze や time_settings には空の成功応答を返す
         return f"={res_id} {res_body}\n\n", True
 
-    # genmove/play はIDを保存する
     if cmd == 'genmove':
         last_genmove_id = res_id
-        # genmove はネットワークへ流す
-        return raw, False
+        # genmove b -> genmove B に正規化して送る
+        color = parts[-1].upper()
+        normalized_raw = f"{res_id} genmove {color}".strip()
+        return normalized_raw, False
     
     if cmd == 'play':
-        # play の応答を Sabaki に返して即座に盤面を更新させる
-        response_to_sabaki = f"={res_id} \n\n"
+        res_id_str = res_id if res_id else ""
+        response_to_sabaki = f"={res_id_str}\n\n"
         sys.stdout.write(response_to_sabaki)
         sys.stdout.flush()
         log_message(f"LOCAL RESP (play ok): {response_to_sabaki.strip()}")
-        # 相手にも play 命令を流すために、ここでの返り値を False にしてメインループへ
-        return raw, False
+        
+        # play b q16 -> play B Q16 に正規化
+        color = parts[-2].upper()
+        move = parts[-1].upper()
+        normalized_raw = f"{res_id} play {color} {move}".strip()
+        return normalized_raw, False
 
     return raw, False
 
